@@ -5,10 +5,12 @@ const button = document.querySelector('.search__button');
 const result = document.querySelector('.result__series');
 const favourite = document.querySelector('.fav__series');
 
+//Function to fetch series from API
 const fetchSeriesFromAPI = () => {
-  fetch(`http://api.tvmaze.com/search/shows?q=girls`)
+  fetch(`http://api.tvmaze.com/search/shows?q=${input.value}`)
     .then(response => response.json())
     .then(data => {
+      result.innerHTML = '';
       for (let item of data) {
         const nameData = item.show.name;
         const imgData = item.show.image.medium;
@@ -23,7 +25,7 @@ const fetchSeriesFromAPI = () => {
         //CONTENT
         const nameContent = document.createTextNode(nameData);
         imgSerie.src = imgData;
-        imgSerie.alt = `Image of serie ${imgData}`;
+        imgSerie.alt = `Image of serie ${nameData}`;
 
         //APPENCHILD
         result.appendChild(boxSerie);
@@ -34,4 +36,16 @@ const fetchSeriesFromAPI = () => {
     });
 }
 
+//Function that allows to press Enter besides search button
+const enterKey = e => {
+  if (e.keyCode == 13) {
+      fetchSeriesFromAPI();
+  }
+}
+
+//Function to clean input
+const cleanInput = () => input.value = '';
+
 button.addEventListener('click', fetchSeriesFromAPI);
+input.addEventListener('click', cleanInput);
+input.addEventListener('keyup', enterKey);
