@@ -4,10 +4,22 @@ const input = document.querySelector('.search__input');
 const button = document.querySelector('.search__button');
 const result = document.querySelector('.result__series');
 const favourite = document.querySelector('.fav__series');
+const listFavouriteSeries = [];
 
-//Function to paint favourites
+console.log(listFavouriteSeries);
+
+//Function to paint favourite series
 const paintFavouritesInDOM = () => {
+  //voy por aqui, array de objetos :) etc
+};
 
+//Function to pick series as favourites
+const pickAsFavourite = e => {
+  const trigger = e.currentTarget;
+  trigger.classList.toggle('fav__serie');
+  if (trigger.classList.contains('fav__serie')) {
+    listFavouriteSeries.push(trigger);
+  }
 };
 
 //Function to paint series in DOM
@@ -39,20 +51,7 @@ const paintSeriesInDOM = arrOfObjs => {
     boxSerie.appendChild(nameSerie);
     nameSerie.appendChild(nameContent);
 
-    //Function to pick series as favourites
-    const pickAsFavourite = e => {
-      e.currentTarget.classList.toggle('fav__serie');
-      const listFavouriteSeries = [];
-      if (e.currentTarget.classList.contains('fav__serie')) {
-        listFavouriteSeries.push(nameSerie.innerHTML);
-      }
-      console.log(listFavouriteSeries);
-    };
     boxSerie.addEventListener('click', pickAsFavourite);
-
-
-
-    paintFavouritesInDOM();
   }
 };
 
