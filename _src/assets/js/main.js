@@ -5,7 +5,7 @@ const button = document.querySelector('.search__button');
 const result = document.querySelector('.result__series');
 const favourite = document.querySelector('.fav__series');
 
-//Function to pick serie as favourite   
+//Function to pick serie as favourite
 const pickAsFavourite = e => e.currentTarget.classList.toggle('fav__serie');
 
 //Function to paint series in DOM
@@ -13,7 +13,7 @@ const paintSeriesInDOM = arrOfObjs => {
   result.innerHTML = '';
   for (let item of arrOfObjs) {
     const nameData = item.show.name;
-    const imgData = item.show.image.medium;
+    const imgData = item.show.image;
     //Containers and classes
     const boxSerie = document.createElement('div');
     boxSerie.classList.add('box__serie');
@@ -25,19 +25,17 @@ const paintSeriesInDOM = arrOfObjs => {
     //Content
     const nameContent = document.createTextNode(nameData);
     if (imgData === null) {
-      imgSerie.src = 'https://via.placeholder.com/210x295/ffffff/666666/?text=TV';
+      imgSerie.src = 'https://via.placeholder.com/210x295/bbbbbb/666666/?text=TV';
     } else {
-      imgSerie.src = imgData;
+      imgSerie.src = imgData.medium;
     }
-    imgSerie.alt = `Image of serie ${nameData}`;
+    imgSerie.alt = `Cover of the serie ${nameData}`;
 
     //Appenchild
     result.appendChild(boxSerie);
     boxSerie.appendChild(imgSerie);
     boxSerie.appendChild(nameSerie);
     nameSerie.appendChild(nameContent);
-
-    //Poner imágenes vacías!!
 
     //cargar mas de 10 resultados
 
@@ -66,5 +64,5 @@ const enterKey = e => {
 const clearInput = () => input.value = '';
 
 button.addEventListener('click', fetchSeriesFromAPI);
-input.addEventListener('click', clearInput);
 input.addEventListener('keyup', enterKey);
+input.addEventListener('click', clearInput);
