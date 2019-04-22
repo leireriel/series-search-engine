@@ -5,15 +5,17 @@ const button = document.querySelector('.search__button');
 const result = document.querySelector('.result__series');
 const favourite = document.querySelector('.fav__series');
 
-//Function to pick serie as favourite
-const pickAsFavourite = e => e.currentTarget.classList.toggle('fav__serie');
+//Function to paint favourites
+const paintFavouritesInDOM = () => {
+
+};
 
 //Function to paint series in DOM
 const paintSeriesInDOM = arrOfObjs => {
   result.innerHTML = '';
-  for (let item of arrOfObjs) {
-    const nameData = item.show.name;
-    const imgData = item.show.image;
+  for (let i = 0; i < arrOfObjs.length; i++) {
+    const nameData = arrOfObjs[i].show.name;
+    const imgData = arrOfObjs[i].show.image;
     //Containers and classes
     const boxSerie = document.createElement('div');
     boxSerie.classList.add('box__serie');
@@ -27,7 +29,7 @@ const paintSeriesInDOM = arrOfObjs => {
     if (imgData === null) {
       imgSerie.src = 'https://via.placeholder.com/210x295/bbbbbb/666666/?text=TV';
     } else {
-      imgSerie.src = imgData.medium;
+      imgSerie.src = imgData.medium || imgData.original;
     }
     imgSerie.alt = `Cover of the serie ${nameData}`;
 
@@ -37,10 +39,20 @@ const paintSeriesInDOM = arrOfObjs => {
     boxSerie.appendChild(nameSerie);
     nameSerie.appendChild(nameContent);
 
-    //cargar mas de 10 resultados
-
     //Function to pick serie as favourite
+    const pickAsFavourite = e => {
+      e.currentTarget.classList.toggle('fav__serie');
+      const listFavouriteSeries = [];
+      if (e.currentTarget.classList.contains('fav__serie')) {
+        listFavouriteSeries.push(nameSerie.innerHTML);
+      }
+      console.log(listFavouriteSeries);
+    };
     boxSerie.addEventListener('click', pickAsFavourite);
+
+
+    
+    paintFavouritesInDOM();
   }
 };
 
@@ -51,6 +63,9 @@ const fetchSeriesFromAPI = () => {
     .then(data => {
       paintSeriesInDOM(data);
     });
+
+  //cargar mas de 10 resultados------------
+
 };
 
 //Function that allows to press Enter besides search button
