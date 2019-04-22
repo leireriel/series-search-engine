@@ -4,41 +4,46 @@ const input = document.querySelector('.search__input');
 const button = document.querySelector('.search__button');
 const result = document.querySelector('.result__series');
 const favourite = document.querySelector('.fav__series');
-let listFavouriteSeries = [];
+const listFavourites = [];
 
-//Function to paint favourite series
-const paintFavouritesInDOM = (object) => {
-  const favImgData = object.querySelector('.img__serie');
-  const favNameData = object.querySelector('.name__serie');
+//Function to paint favourite series in DOM
+const paintFavourites = () => {
+  for (let item of listFavourites) {
+    const favImgData = item.querySelector('.img__serie');
+    const favNameData = item.querySelector('.name__serie');
 
-  //Containers and classes
-  const favBoxSerie = document.createElement('li');
-  favBoxSerie.classList.add('fav--box__serie');
-  const favNameSerie = document.createElement('h4');
-  favNameSerie.classList.add('fav--name__serie');
-  const favImgSerie = document.createElement('div');
-  favImgSerie.classList.add('fav--img__serie');
+    //Containers and classes
+    const favBoxSerie = document.createElement('li');
+    favBoxSerie.classList.add('fav--box__serie');
+    const favNameSerie = document.createElement('h4');
+    favNameSerie.classList.add('fav--name__serie');
+    const favImgSerie = document.createElement('div');
+    favImgSerie.classList.add('fav--img__serie');
 
-  //Content
-  const favNameContent = document.createTextNode(favNameData.innerHTML);
-  favImgSerie.style = `background-image: url("${favImgData.src}"); background-repeat: no-repeat; background-size: contain`;
+    //Content
+    const favNameContent = document.createTextNode(favNameData.innerHTML);
+    favImgSerie.style = `background-image: url("${favImgData.src}"); background-repeat: no-repeat; background-size: contain`;
 
-  //Appenchild
-  favourite.appendChild(favBoxSerie);
-  favBoxSerie.appendChild(favImgSerie);
-  favBoxSerie.appendChild(favNameSerie);
-  favNameSerie.appendChild(favNameContent);
+    //Appenchild
+    favourite.appendChild(favBoxSerie);
+    favBoxSerie.appendChild(favImgSerie);
+    favBoxSerie.appendChild(favNameSerie);
+    favNameSerie.appendChild(favNameContent);
+  }
 };
 
 //Function to paint title of favourites section
 const paintFavouritesTitle = () => {
-  if (listFavouriteSeries.length === 1) {
-    const favTitle = document.createElement('h3');
-    favTitle.classList.add('fav--title');
-    const favTitleContent = document.createTextNode('Mis series favoritas');
-    favTitle.appendChild(favTitleContent);
-    favourite.appendChild(favTitle);
-  }
+  const favTitle = document.createElement('h3');
+  favTitle.classList.add('fav--title');
+  const favTitleContent = document.createTextNode('Mis series favoritas');
+  favTitle.appendChild(favTitleContent);
+  favourite.appendChild(favTitle);
+};
+
+//Function to clear favourites section in DOM
+const clearFavourites = () => {
+  // favourite = '';
 };
 
 //Function to pick series as favourites
@@ -46,14 +51,15 @@ const pickAsFavourite = e => {
   const trigger = e.currentTarget;
   trigger.classList.toggle('fav__serie');
   if (trigger.classList.contains('fav__serie')) {
-    listFavouriteSeries.push(trigger);
+    listFavourites.push(trigger);
+    clearFavourites();
     paintFavouritesTitle();
-    paintFavouritesInDOM(trigger);
+    paintFavourites();
   }
 };
 
 //Function to paint series in DOM
-const paintSeriesInDOM = arrOfObjs => {
+const paintSeries = arrOfObjs => {
   result.innerHTML = '';
   for (let i = 0; i < arrOfObjs.length; i++) {
     const nameData = arrOfObjs[i].show.name;
@@ -91,7 +97,7 @@ const fetchSeriesFromAPI = () => {
   fetch(`http://api.tvmaze.com/search/shows?q=${input.value}`)
     .then(response => response.json())
     .then(data => {
-      paintSeriesInDOM(data);
+      paintSeries(data);
     });
 };
 
