@@ -8,29 +8,33 @@ const listFavouriteSeries = [];
 
 //Function to paint favourite series
 const paintFavouritesInDOM = () => {
+  const favTitle = document.createElement('h3');
+  favTitle.classList.add('fav--title');
+  const favTitleContent = document.createTextNode('Mis series favoritas');
+  favTitle.appendChild(favTitleContent);
+
   for(let favSerie of listFavouriteSeries) {
     const favImgData = favSerie.querySelector('.img__serie');
     const favNameData = favSerie.querySelector('.name__serie');
     //Containers and classes
     const favBoxSerie = document.createElement('li');
     favBoxSerie.classList.add('fav--box__serie');
-    const favNameSerie = document.createElement('h3');
+    const favNameSerie = document.createElement('h4');
     favNameSerie.classList.add('fav--name__serie');
-    const favImgSerie = document.createElement('img');
+    const favImgSerie = document.createElement('div');
     favImgSerie.classList.add('fav--img__serie');
 
     //Content
     const favNameContent = document.createTextNode(favNameData.innerHTML);
-    favImgSerie.src = favImgData.src;
-    favImgSerie.alt = `Cover of the favourited serie ${favNameData.innerHTML}`;
+    favImgSerie.style = `background-image: url("${favImgData.src}"); background-repeat: no-repeat; background-size: contain`;
 
     //Appenchild
+    favourite.appendChild(favTitle);
     favourite.appendChild(favBoxSerie);
     favBoxSerie.appendChild(favImgSerie);
     favBoxSerie.appendChild(favNameSerie);
     favNameSerie.appendChild(favNameContent);
   }
-  
 };
 
 //Function to pick series as favourites
