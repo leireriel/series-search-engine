@@ -3,7 +3,7 @@
 const input = document.querySelector('.search__input');
 const button = document.querySelector('.search__button');
 const result = document.querySelector('.result__series');
-const favourite = document.querySelector('.fav__series');
+let favourite = document.querySelector('.fav__series');
 const listFavourites = [];
 
 //Function to paint favourite series in DOM
@@ -43,7 +43,7 @@ const paintFavouritesTitle = () => {
 
 //Function to clear favourites section in DOM
 const clearFavourites = () => {
-  // favourite = '';
+  favourite.innerHTML = `<ol class="fav__series"></ol>`;
 };
 
 //Function to pick series as favourites
