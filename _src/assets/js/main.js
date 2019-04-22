@@ -17,7 +17,7 @@ const paintSeriesInDOM = arrOfObjs => {
     const nameData = arrOfObjs[i].show.name;
     const imgData = arrOfObjs[i].show.image;
     //Containers and classes
-    const boxSerie = document.createElement('div');
+    const boxSerie = document.createElement('li');
     boxSerie.classList.add('box__serie');
     const nameSerie = document.createElement('h2');
     nameSerie.classList.add('name__serie');
@@ -39,7 +39,7 @@ const paintSeriesInDOM = arrOfObjs => {
     boxSerie.appendChild(nameSerie);
     nameSerie.appendChild(nameContent);
 
-    //Function to pick serie as favourite
+    //Function to pick series as favourites
     const pickAsFavourite = e => {
       e.currentTarget.classList.toggle('fav__serie');
       const listFavouriteSeries = [];
@@ -51,7 +51,7 @@ const paintSeriesInDOM = arrOfObjs => {
     boxSerie.addEventListener('click', pickAsFavourite);
 
 
-    
+
     paintFavouritesInDOM();
   }
 };
