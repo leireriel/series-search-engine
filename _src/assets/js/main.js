@@ -71,7 +71,7 @@ const paintFavourites = arr => {
 };
 
 //Delete from favourite
-const deleteFavourite = e => {
+function deleteFavourite (e) {
   const trigger = e.currentTarget;
   const parent = trigger.parentElement;
 
@@ -87,7 +87,7 @@ const deleteFavourite = e => {
 
   saveLS(listFavourites);
   paintFavourites(listFavourites);
-};
+}
 
 //Function to pick series as favourites
 const pickAsFavourite = e => {
