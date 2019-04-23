@@ -83,10 +83,13 @@ function deleteFavourite (e) {
 
   const favObj = { img: favImg, name: favName, };
 
-  listFavourites.splice(favObj, 1);
-
-  saveLS(listFavourites);
-  paintFavourites(listFavourites);
+  for (let fav of listFavourites) {
+    if (fav === favObj) {
+      listFavourites.splice(fav);
+      saveLS(listFavourites);
+      paintFavourites(listFavourites);
+    }
+  }
 }
 
 //Function to pick series as favourites
