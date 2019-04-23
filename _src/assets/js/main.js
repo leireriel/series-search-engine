@@ -111,8 +111,9 @@ const paintSeries = arrOfObjs => {
 const fetchSeriesFromAPI = () => {
   fetch(`http://api.tvmaze.com/search/shows?q=${input.value}`)
     .then(response => response.json())
-    .then(data => {
-      paintSeries(data);
+    .then(data => paintSeries(data))
+    .catch(error => {
+      result.innerHTML = `Ha ocurrido un error: ${error}`;
     });
 };
 
