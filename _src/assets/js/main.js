@@ -5,21 +5,21 @@ const button = document.querySelector('.search__button');
 const result = document.querySelector('.result__series');
 const favourite = document.querySelector('.fav__series');
 const listFavourites = [];
+const savedFavs = JSON.parse(localStorage.getItem('userFavs'));
 
 //Save in LocalStorage
 const saveLS = (arr) => {
   localStorage.setItem('userFavs', JSON.stringify(arr));
 };
-JSON.parse(localStorage.getItem('userFavs'));
 
 //Function to paint title of favourites section
-const paintFavouritesTitle = () => {
+const paintFavouritesTitle = arr => {
   const favTitle = document.createElement('h2');
   favTitle.classList.add('fav--title');
   const favTitleContent = document.createTextNode('Mis series favoritas');
   favTitle.appendChild(favTitleContent);
   favourite.appendChild(favTitle);
-  if (listFavourites.length < 1) {
+  if (arr.length < 1) {
     favourite.remove(favTitle);
   } else {
     favourite.appendChild(favTitle);
@@ -27,14 +27,14 @@ const paintFavouritesTitle = () => {
 };
 
 //Function to paint favourite series in DOM
-const paintFavourites = () => {
-  paintFavouritesTitle();
+const paintFavourites = arr => {
+  paintFavouritesTitle(arr);
   //Paint empty list for favourite series
   const favList = document.createElement('ol');
   favList.classList.add('fav--list');
   favourite.appendChild(favList);
 
-  for (let item of listFavourites) {
+  for (let item of arr) {
     const favImgData = item.img;
     const favNameData = item.name;
 
@@ -81,7 +81,7 @@ const pickAsFavourite = e => {
   }
   saveLS(listFavourites);
   clearFavourites();
-  paintFavourites();
+  paintFavourites(listFavourites);
 };
 
 //Function to paint series in DOM
@@ -144,6 +144,9 @@ const enterKey = e => {
 //Function to clear input
 const clearInput = () => input.value = '';
 
+paintFavourites(savedFavs);
+
 button.addEventListener('click', fetchSeriesFromAPI);
 input.addEventListener('keyup', enterKey);
 input.addEventListener('click', clearInput);
+
