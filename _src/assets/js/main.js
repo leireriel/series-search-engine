@@ -3,8 +3,14 @@
 const input = document.querySelector('.search__input');
 const button = document.querySelector('.search__button');
 const result = document.querySelector('.result__series');
-let favourite = document.querySelector('.fav__series');
+const favourite = document.querySelector('.fav__series');
 const listFavourites = [];
+
+//Save in LocalStorage
+const saveLS = (arr) => {
+  localStorage.setItem('userFavs', JSON.stringify(arr));
+};
+JSON.parse(localStorage.getItem('userFavs'));
 
 //Function to paint title of favourites section
 const paintFavouritesTitle = () => {
@@ -29,8 +35,8 @@ const paintFavourites = () => {
   favourite.appendChild(favList);
 
   for (let item of listFavourites) {
-    const favImgData = item.querySelector('.img__serie');
-    const favNameData = item.querySelector('.name__serie');
+    const favImgData = item.img;
+    const favNameData = item.name;
 
     //Containers and classes
     const favBoxSerie = document.createElement('li');
@@ -41,8 +47,8 @@ const paintFavourites = () => {
     favImgSerie.classList.add('fav--img__serie');
 
     //Content
-    const favNameContent = document.createTextNode(favNameData.innerHTML);
-    favImgSerie.style = `background-image: url("${favImgData.src}"); background-repeat: no-repeat; background-size: contain`;
+    const favNameContent = document.createTextNode(favNameData);
+    favImgSerie.style = `background-image: url("${favImgData}"); background-repeat: no-repeat; background-size: contain`;
 
     //Appenchild
     favList.appendChild(favBoxSerie);
@@ -61,14 +67,19 @@ const clearFavourites = () => {
 const pickAsFavourite = e => {
   const trigger = e.currentTarget;
   trigger.classList.toggle('fav__serie');
+
+  const img = trigger.querySelector('.img__serie');
+  const name = trigger.querySelector('.name__serie');
+
+  const favImg = img.src;
+  const favName = name.innerHTML;
+
+  const favObj = {img: favImg, name: favName,};
+
   if (trigger.classList.contains('fav__serie')) {
-    listFavourites.push(trigger);
-  } else {
-    const index = listFavourites.indexOf(trigger);
-    if (index >= 0) {
-      listFavourites.splice(index, 1);
-    }
+    listFavourites.push(favObj);
   }
+  saveLS(listFavourites);
   clearFavourites();
   paintFavourites();
 };
