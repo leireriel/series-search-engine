@@ -8,11 +8,14 @@ const listFavourites = [];
 
 //Function to paint title of favourites section
 const paintFavouritesTitle = () => {
-  if (listFavourites) {
-    const favTitle = document.createElement('h3');
-    favTitle.classList.add('fav--title');
-    const favTitleContent = document.createTextNode('Mis series favoritas');
-    favTitle.appendChild(favTitleContent);
+  const favTitle = document.createElement('h2');
+  favTitle.classList.add('fav--title');
+  const favTitleContent = document.createTextNode('Mis series favoritas');
+  favTitle.appendChild(favTitleContent);
+  favourite.appendChild(favTitle);
+  if (listFavourites.length < 1) {
+    favourite.remove(favTitle);
+  } else {
     favourite.appendChild(favTitle);
   }
 };
@@ -20,6 +23,11 @@ const paintFavouritesTitle = () => {
 //Function to paint favourite series in DOM
 const paintFavourites = () => {
   paintFavouritesTitle();
+  //Paint empty list for favourite series
+  const favList = document.createElement('ol');
+  favList.classList.add('fav--list');
+  favourite.appendChild(favList);
+
   for (let item of listFavourites) {
     const favImgData = item.querySelector('.img__serie');
     const favNameData = item.querySelector('.name__serie');
@@ -27,7 +35,7 @@ const paintFavourites = () => {
     //Containers and classes
     const favBoxSerie = document.createElement('li');
     favBoxSerie.classList.add('fav--box__serie');
-    const favNameSerie = document.createElement('h4');
+    const favNameSerie = document.createElement('h3');
     favNameSerie.classList.add('fav--name__serie');
     const favImgSerie = document.createElement('div');
     favImgSerie.classList.add('fav--img__serie');
@@ -37,7 +45,7 @@ const paintFavourites = () => {
     favImgSerie.style = `background-image: url("${favImgData.src}"); background-repeat: no-repeat; background-size: contain`;
 
     //Appenchild
-    favourite.appendChild(favBoxSerie);
+    favList.appendChild(favBoxSerie);
     favBoxSerie.appendChild(favImgSerie);
     favBoxSerie.appendChild(favNameSerie);
     favNameSerie.appendChild(favNameContent);
@@ -46,7 +54,7 @@ const paintFavourites = () => {
 
 //Function to clear favourites section in DOM
 const clearFavourites = () => {
-  favourite.innerHTML = `<ol class="fav__series"></ol>`;
+  favourite.innerHTML = '';
 };
 
 //Function to pick series as favourites
@@ -75,7 +83,7 @@ const paintSeries = arrOfObjs => {
     //Containers and classes
     const boxSerie = document.createElement('li');
     boxSerie.classList.add('box__serie');
-    const nameSerie = document.createElement('h2');
+    const nameSerie = document.createElement('h4');
     nameSerie.classList.add('name__serie');
     const imgSerie = document.createElement('img');
     imgSerie.classList.add('img__serie');
