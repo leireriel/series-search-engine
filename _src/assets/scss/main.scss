@@ -83,3 +83,9 @@ body {
 	display: flex;
 	align-items: center;
 }
+.fav--delete {
+	height: 20px;
+	width: 20px;
+	background-color: red;
+	cursor: pointer;
+}

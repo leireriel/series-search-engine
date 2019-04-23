@@ -26,9 +26,16 @@ const paintFavouritesTitle = arr => {
   }
 };
 
+//Function to clear favourites section in DOM
+const clearFavourites = () => {
+  favourite.innerHTML = '';
+};
+
 //Function to paint favourite series in DOM
 const paintFavourites = arr => {
+  clearFavourites();
   paintFavouritesTitle(arr);
+
   //Paint empty list for favourite series
   const favList = document.createElement('ol');
   favList.classList.add('fav--list');
@@ -43,24 +50,43 @@ const paintFavourites = arr => {
     favBoxSerie.classList.add('fav--box__serie');
     const favNameSerie = document.createElement('h3');
     favNameSerie.classList.add('fav--name__serie');
-    const favImgSerie = document.createElement('div');
+    const favImgSerie = document.createElement('img');
     favImgSerie.classList.add('fav--img__serie');
+    const favDelete = document.createElement('div');
+    favDelete.classList.add('fav--delete');
 
     //Content
     const favNameContent = document.createTextNode(favNameData);
-    favImgSerie.style = `background-image: url("${favImgData}"); background-repeat: no-repeat; background-size: contain`;
+    favImgSerie.src = favImgData;
 
     //Appenchild
     favList.appendChild(favBoxSerie);
     favBoxSerie.appendChild(favImgSerie);
     favBoxSerie.appendChild(favNameSerie);
+    favBoxSerie.appendChild(favDelete);
     favNameSerie.appendChild(favNameContent);
+
+    favDelete.addEventListener('click', deleteFavourite);
   }
 };
 
-//Function to clear favourites section in DOM
-const clearFavourites = () => {
-  favourite.innerHTML = '';
+//Delete from favourite
+const deleteFavourite = e => {
+  const trigger = e.currentTarget;
+  const parent = trigger.parentElement;
+
+  const img = parent.querySelector('.fav--img__serie');
+  const name = parent.querySelector('.fav--name__serie');
+
+  const favImg = img.src;
+  const favName = name.innerHTML;
+
+  const favObj = { img: favImg, name: favName, };
+
+  listFavourites.splice(favObj, 1);
+
+  saveLS(listFavourites);
+  paintFavourites(listFavourites);
 };
 
 //Function to pick series as favourites
@@ -80,9 +106,7 @@ const pickAsFavourite = e => {
     listFavourites.push(favObj);
   }
   saveLS(listFavourites);
-  clearFavourites();
   paintFavourites(listFavourites);
-  console.log(listFavourites);
 };
 
 //Function to paint series in DOM
