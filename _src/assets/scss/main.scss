@@ -11,11 +11,11 @@ body {
 	display: flex;
 	padding: 0 70px 20px;
 }
-.search-favs {
+.search-favs__container {
 	display: flex;
 	flex-direction: column;
 }
-.search {
+.search__container {
 	display: flex;
 	flex-direction: row;
 }

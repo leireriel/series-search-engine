@@ -6,8 +6,20 @@ const result = document.querySelector('.result__series');
 let favourite = document.querySelector('.fav__series');
 const listFavourites = [];
 
+//Function to paint title of favourites section
+const paintFavouritesTitle = () => {
+  if (listFavourites) {
+    const favTitle = document.createElement('h3');
+    favTitle.classList.add('fav--title');
+    const favTitleContent = document.createTextNode('Mis series favoritas');
+    favTitle.appendChild(favTitleContent);
+    favourite.appendChild(favTitle);
+  }
+};
+
 //Function to paint favourite series in DOM
 const paintFavourites = () => {
+  paintFavouritesTitle();
   for (let item of listFavourites) {
     const favImgData = item.querySelector('.img__serie');
     const favNameData = item.querySelector('.name__serie');
@@ -32,15 +44,6 @@ const paintFavourites = () => {
   }
 };
 
-//Function to paint title of favourites section
-const paintFavouritesTitle = () => {
-  const favTitle = document.createElement('h3');
-  favTitle.classList.add('fav--title');
-  const favTitleContent = document.createTextNode('Mis series favoritas');
-  favTitle.appendChild(favTitleContent);
-  favourite.appendChild(favTitle);
-};
-
 //Function to clear favourites section in DOM
 const clearFavourites = () => {
   favourite.innerHTML = `<ol class="fav__series"></ol>`;
@@ -52,10 +55,14 @@ const pickAsFavourite = e => {
   trigger.classList.toggle('fav__serie');
   if (trigger.classList.contains('fav__serie')) {
     listFavourites.push(trigger);
-    clearFavourites();
-    paintFavouritesTitle();
-    paintFavourites();
+  } else {
+    const index = listFavourites.indexOf(trigger);
+    if (index >= 0) {
+      listFavourites.splice(index, 1);
+    }
   }
+  clearFavourites();
+  paintFavourites();
 };
 
 //Function to paint series in DOM
