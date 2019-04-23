@@ -4,8 +4,8 @@ const input = document.querySelector('.search__input');
 const button = document.querySelector('.search__button');
 const result = document.querySelector('.result__series');
 const favourite = document.querySelector('.fav__series');
-const listFavourites = [];
 const savedFavs = JSON.parse(localStorage.getItem('userFavs'));
+let listFavourites = [];
 
 //Save in LocalStorage
 const saveLS = (arr) => {
@@ -74,7 +74,7 @@ const pickAsFavourite = e => {
   const favImg = img.src;
   const favName = name.innerHTML;
 
-  const favObj = {img: favImg, name: favName,};
+  const favObj = { img: favImg, name: favName, };
 
   if (trigger.classList.contains('fav__serie')) {
     listFavourites.push(favObj);
@@ -82,6 +82,7 @@ const pickAsFavourite = e => {
   saveLS(listFavourites);
   clearFavourites();
   paintFavourites(listFavourites);
+  console.log(listFavourites);
 };
 
 //Function to paint series in DOM
@@ -144,7 +145,17 @@ const enterKey = e => {
 //Function to clear input
 const clearInput = () => input.value = '';
 
-paintFavourites(savedFavs);
+//Get from LocalStorage
+const getLS = () => {
+  if (savedFavs !== null) {
+    listFavourites = savedFavs;
+    paintFavourites(savedFavs);
+  } else {
+    listFavourites = [];
+  }
+};
+
+getLS();
 
 button.addEventListener('click', fetchSeriesFromAPI);
 input.addEventListener('keyup', enterKey);
